@@ -6,9 +6,6 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final IconData? icon;
   final bool? isPassword;
-  final Color? fill;
-  final Color? textColor;
-  final Color? crusorColor;
 
   const CustomTextField({
     super.key,
@@ -17,9 +14,6 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     this.icon,
     this.isPassword,
-    this.fill,
-    this.textColor,
-    this.crusorColor,
   });
 
   @override
@@ -29,22 +23,13 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         obscureText: isPassword ?? false,
-        style: TextStyle(
-          color: textColor,
-        ),
-        cursorColor: crusorColor,
+        style: TextStyle(color: Colors.white, fontSize: h * 0.4),
+        cursorColor: Colors.white,
         decoration: InputDecoration(
           hintText: hint,
-          fillColor: fill,
           hintStyle: TextStyle(
             color: Colors.grey[400],
           ),
-          suffix: icon == null
-              ? const SizedBox()
-              : Icon(
-                  icon,
-                  size: h * 0.2,
-                ),
         ),
       ),
     );

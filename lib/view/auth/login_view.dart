@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:technical_support/components/routes/routes.dart';
 import 'package:technical_support/models/services/navigation_service.dart';
-import 'package:technical_support/view/widgets/global/custom_text_field.dart';
+import 'package:technical_support/view/widgets/fileds/login_text_field.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -30,7 +30,7 @@ class LoginView extends StatelessWidget {
                   "Login",
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontSize: h * 0.05,
-                        color: Colors.grey[600],
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                 ),
                 SizedBox(
@@ -39,10 +39,10 @@ class LoginView extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: w * 0.05),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(h * 0.005),
+                    borderRadius: BorderRadius.circular(h * 0.01),
                     child: CustomTextField(
                       controller: TextEditingController(),
-                      h: h * 0.1,
+                      h: h * 0.05,
                       hint: 'User Name',
                     ),
                   ),
@@ -53,10 +53,10 @@ class LoginView extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: w * 0.05),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(h * 0.005),
+                    borderRadius: BorderRadius.circular(h * 0.01),
                     child: CustomTextField(
                       controller: TextEditingController(),
-                      h: h * 0.1,
+                      h: h * 0.05,
                       hint: 'Password',
                       isPassword: true,
                       icon: Icons.visibility,

@@ -18,25 +18,29 @@ class CustomAppBar extends StatelessWidget {
           Text(
             "Technical Support",
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontSize: h * 0.03,
                   color: Colors.white,
                 ),
           ),
           Row(
             children: [
-              Icon(
-                Icons.mail,
-                size: h * 0.03,
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.mail),
+                iconSize: h * 0.035,
                 color: Colors.white,
               ),
               SizedBox(
-                width: w * 0.035,
+                width: w * 0.02,
               ),
               CircleAvatar(
                 radius: h * 0.016,
                 backgroundColor: Colors.white,
                 child: Text(
                   "M",
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontSize: h * 0.02,
+                      ),
                 ),
               ),
             ],
