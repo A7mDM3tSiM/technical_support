@@ -1,7 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:technical_support/components/routes/routes.dart';
+import 'package:technical_support/models/services/navigation_service.dart';
 
-class SplashView extends StatelessWidget {
+class SplashView extends StatefulWidget {
   const SplashView({super.key});
+
+  @override
+  State<SplashView> createState() => _SplashViewState();
+}
+
+class _SplashViewState extends State<SplashView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        await Future.delayed(
+          const Duration(
+            seconds: 5,
+          ),
+        );
+        NavigationService.pushReplacement(Routes.loginRoute);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

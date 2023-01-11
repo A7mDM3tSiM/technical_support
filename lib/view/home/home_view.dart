@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:technical_support/components/routes/routes.dart';
 import 'package:technical_support/components/statics/statics.dart';
+import 'package:technical_support/models/services/navigation_service.dart';
 import 'package:technical_support/models/user/user_model.dart';
 import 'package:technical_support/view/widgets/global/custom_app_bar.dart';
 import 'package:technical_support/view/widgets/home/bototm_sheet_widget.dart';
@@ -87,20 +89,30 @@ class HomeView extends StatelessWidget {
                             itemCount: ticketsList.length,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return CustomTableRow(
-                                id: ticketsList[index].id,
-                                topic: ticketsList[index].topic,
-                                lastUpdate: ticketsList[index].lastUpdate,
-                                status: ticketsList[index].status,
-                                priority: ticketsList[index].priority,
-                                assignedUser: ticketsList[index].assignedUser,
-                                isFirst: index == 0,
+                              return GestureDetector(
+                                onTap: () {
+                                  NavigationService.push(
+                                    Routes.ticketDetailsRoute,
+                                  );
+                                },
+                                child: CustomTableRow(
+                                  id: ticketsList[index].id,
+                                  topic: ticketsList[index].topic,
+                                  lastUpdate: ticketsList[index].lastUpdate,
+                                  status: ticketsList[index].status,
+                                  priority: ticketsList[index].priority,
+                                  assignedUser: ticketsList[index].assignedUser,
+                                  isFirst: index == 0,
+                                ),
                               );
                             },
                           ),
                         ),
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: h * 0.1,
                   ),
                 ],
               ),

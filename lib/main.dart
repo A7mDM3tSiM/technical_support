@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         builder: (context, theme, _) {
           return MaterialApp(
             routes: Routes.routes,
-            initialRoute: Routes.loginRoute,
+            initialRoute: Routes.splashRoute,
             navigatorKey: NavigationService.navKey,
             scaffoldMessengerKey: scaffoldMessengerKey,
             localizationsDelegates: context.localizationDelegates,

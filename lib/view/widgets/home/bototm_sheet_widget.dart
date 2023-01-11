@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:technical_support/models/services/navigation_service.dart';
+import 'package:technical_support/view/widgets/ticket/add_file_widget.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({super.key});
@@ -75,25 +76,7 @@ class BottomSheetWidget extends StatelessWidget {
           SizedBox(
             height: h * 0.005,
           ),
-          Container(
-            height: h * 0.05,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              border: Border.all(
-                width: .5,
-                color: Colors.black,
-              ),
-            ),
-            child: Center(
-              child: Text(
-                "Add a file",
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.white,
-                      fontSize: h * 0.02,
-                    ),
-              ),
-            ),
-          ),
+          const AddFileWidget(),
           SizedBox(
             height: h * 0.02,
           ),
