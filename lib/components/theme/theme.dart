@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
 
+const kPrimaryColor = Color(0xff2b5579);
+const ksecondryColor = Color(0xff3c709d);
+const kAccentColor = Color(0xfff2f9fe);
+const kBackground = Color(0xffe9eff2);
+
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
+  scaffoldBackgroundColor: kBackground,
   appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.blueAccent,
+    backgroundColor: kBackground,
     titleTextStyle: TextStyle(
       color: Colors.white,
     ),
   ),
   colorScheme: const ColorScheme(
-    background: Colors.white,
     brightness: Brightness.light,
+    background: kBackground,
+    onBackground: kBackground,
+    primary: kPrimaryColor,
+    onPrimary: kPrimaryColor,
+    secondary: ksecondryColor,
+    onSecondary: ksecondryColor,
+    surface: kAccentColor,
+    onSurface: kAccentColor,
     error: Colors.redAccent,
-    onBackground: Colors.white,
     onError: Colors.redAccent,
-    onPrimary: Colors.blueAccent,
-    onSecondary: Colors.grey,
-    onSurface: Colors.white,
-    primary: Colors.blueAccent,
-    secondary: Colors.grey,
-    surface: Colors.white,
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
@@ -36,7 +42,7 @@ ThemeData lightTheme = ThemeData(
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: Colors.grey[300],
+    fillColor: Colors.grey[600],
     border: InputBorder.none,
   ),
 );

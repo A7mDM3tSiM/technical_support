@@ -6,13 +6,25 @@ class SplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
-    var w = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: Column(),
+        child: Padding(
+          padding: EdgeInsets.all(h * 0.1),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/app_icon.png",
+              ),
+              Image.asset(
+                "assets/images/izdiad_text.png",
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
