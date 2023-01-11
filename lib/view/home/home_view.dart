@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:technical_support/components/statics/statics.dart';
+import 'package:technical_support/models/user/user_model.dart';
 import 'package:technical_support/view/widgets/global/custom_app_bar.dart';
 import 'package:technical_support/view/widgets/home/bototm_sheet_widget.dart';
 import 'package:technical_support/view/widgets/home/table_row.dart';
@@ -110,6 +111,9 @@ class HomeView extends StatelessWidget {
       ),
       floatingActionButton: Builder(
         builder: (context) {
+          if (userType != UserType.customer) {
+            return const SizedBox();
+          }
           return FloatingActionButton(
             backgroundColor: Theme.of(context).colorScheme.secondary,
             onPressed: () {
