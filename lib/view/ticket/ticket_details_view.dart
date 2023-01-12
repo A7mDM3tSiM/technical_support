@@ -28,7 +28,13 @@ class TicketDetailsView extends StatelessWidget {
                   SizedBox(
                     height: h * 0.025,
                   ),
-                  const TicketDetailsFiled(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: w * 0.05),
+                    child: const TicketDetailsFiled(
+                      comment: "Write your comment",
+                      readOnly: false,
+                    ),
+                  ),
                   SizedBox(
                     height: h * 0.025,
                   ),

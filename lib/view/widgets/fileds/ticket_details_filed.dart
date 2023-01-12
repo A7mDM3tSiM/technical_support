@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class TicketDetailsFiled extends StatelessWidget {
-  const TicketDetailsFiled({super.key});
+  final String comment;
+  final bool readOnly;
+  const TicketDetailsFiled({
+    super.key,
+    required this.readOnly,
+    required this.comment,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,24 +18,18 @@ class TicketDetailsFiled extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: w * 0.05,
-          ),
-          child: Text(
-            "Comment",
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontSize: h * 0.017,
-                ),
-          ),
+        Text(
+          "Comment",
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+                fontSize: h * 0.017,
+              ),
         ),
         SizedBox(
           height: h * 0.005,
         ),
         Container(
           height: h * 0.13,
-          margin: EdgeInsets.symmetric(horizontal: w * 0.05),
           padding: EdgeInsets.symmetric(
             horizontal: w * 0.01,
           ),
@@ -48,8 +48,9 @@ class TicketDetailsFiled extends StatelessWidget {
                   fontSize: h * 0.017,
                 ),
             maxLines: null,
+            readOnly: readOnly,
             decoration: InputDecoration(
-              hintText: "Write your comment",
+              hintText: comment,
               hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontSize: h * 0.017,
                     color: Colors.grey[500],
