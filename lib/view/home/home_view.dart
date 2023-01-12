@@ -105,7 +105,7 @@ class HomeView extends StatelessWidget {
                                         id: ticketsList[index].id,
                                         topic: ticketsList[index].topic,
                                         lastUpdate:
-                                            ticketsList[index].lastUpdate,
+                                            ticketsList[index].updatedAt,
                                         status: ticketsList[index].status,
                                         priority: ticketsList[index].priority,
                                         assignedUser:

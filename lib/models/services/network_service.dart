@@ -4,7 +4,7 @@ enum Method { get, post }
 
 class NetworkService {
   static late Dio _dio;
-  static const String _baseUrl = 'http://104.198.26.113:8080/api/v1';
+  static const String _baseUrl = 'http://apibaseurl.com/api/v1';
 
   /// initlize the dio services
   static void init() {
