@@ -8,9 +8,15 @@ import 'package:technical_support/view/widgets/home/bototm_sheet_widget.dart';
 import 'package:technical_support/view/widgets/home/table_row.dart';
 import 'package:technical_support/view/widgets/ticket/ticket_detaild_customer_widget.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  var userType = UserType.admin;
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
@@ -125,7 +131,18 @@ class HomeView extends StatelessWidget {
                       ],
                     ),
                   ),
-            const CustomAppBar(),
+            GestureDetector(
+              onTap: () {
+                setState(
+                  () {
+                    userType = userType == UserType.admin
+                        ? UserType.customer
+                        : UserType.admin;
+                  },
+                );
+              },
+              child: const CustomAppBar(label: "Technical Support"),
+            ),
           ],
         ),
       ),

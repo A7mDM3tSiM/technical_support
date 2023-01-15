@@ -49,7 +49,7 @@ class _SplashViewState extends State<SplashView> {
           children: [
             Center(
               child: SizedBox(
-                height: h * 0.4,
+                height: h * 0.25,
                 child: Image.asset(
                   "assets/images/app_icon.png",
                 ),
@@ -59,7 +59,7 @@ class _SplashViewState extends State<SplashView> {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 height: h * 0.1,
-                width: w * 0.8,
+                width: w * 0.7,
                 child: Image.asset(
                   "assets/images/izdiad_text.png",
                 ),

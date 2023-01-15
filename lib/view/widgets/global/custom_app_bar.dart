@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({super.key});
+  final String label;
+  const CustomAppBar({
+    super.key,
+    required this.label,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,7 @@ class CustomAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Technical Support",
+            label,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontSize: h * 0.03,
                   color: Colors.white,
