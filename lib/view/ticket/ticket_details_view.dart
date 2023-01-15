@@ -36,11 +36,11 @@ class TicketDetailsView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: h * 0.025,
+                    height: h * 0.02,
                   ),
                   const AddFileWidget(),
                   SizedBox(
-                    height: h * 0.1,
+                    height: h * 0.075,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: w * 0.05),

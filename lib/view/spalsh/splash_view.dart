@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:technical_support/components/routes/routes.dart';
-import 'package:technical_support/models/services/navigation_service.dart';
+import 'package:technical_support/view/widgets/splash/login_container_widget.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -13,14 +12,26 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
+        // simulating api call for getting app details
         await Future.delayed(
           const Duration(
-            seconds: 5,
+            seconds: 4,
           ),
         );
-        NavigationService.pushReplacement(Routes.loginRoute);
+        _endSplashLoading();
+      },
+    );
+  }
+
+  bool _splashLoading = true;
+
+  void _endSplashLoading() {
+    setState(
+      () {
+        _splashLoading = false;
       },
     );
   }
@@ -28,24 +39,42 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: Padding(
-          padding: EdgeInsets.all(h * 0.1),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/images/app_icon.png",
+        child: Stack(
+          children: [
+            Center(
+              child: SizedBox(
+                height: h * 0.4,
+                child: Image.asset(
+                  "assets/images/app_icon.png",
+                ),
               ),
-              Image.asset(
-                "assets/images/izdiad_text.png",
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: h * 0.1,
+                width: w * 0.8,
+                child: Image.asset(
+                  "assets/images/izdiad_text.png",
+                ),
               ),
-            ],
-          ),
+            ),
+            AnimatedAlign(
+              alignment:
+                  _splashLoading ? const Alignment(0, -2.5) : Alignment.center,
+              duration: const Duration(
+                milliseconds: 300,
+              ),
+              curve: Curves.fastOutSlowIn,
+              child: const LoginConatinerWidget(),
+            ),
+          ],
         ),
       ),
     );

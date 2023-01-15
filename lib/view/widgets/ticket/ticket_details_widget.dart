@@ -20,8 +20,13 @@ class TicketDetailsWidget extends StatelessWidget {
         boxShadow: const [
           BoxShadow(
             color: Colors.black12,
-            blurRadius: 5,
-            offset: Offset(1, 4),
+            blurRadius: 10,
+            offset: Offset(1, 5),
+          ),
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            offset: Offset(-1, 5),
           ),
         ],
       ),

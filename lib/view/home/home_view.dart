@@ -145,7 +145,7 @@ class HomeView extends StatelessWidget {
                     );
                   },
                   // TODO: will implement two diffrent icons one for create a ticket
-                  // and the other for closing the bottom sheet
+                  // and the anther for closing the bottom sheet
                   child: const Icon(
                     Icons.add,
                     color: Colors.white,

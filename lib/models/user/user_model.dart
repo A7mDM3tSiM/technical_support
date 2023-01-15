@@ -18,7 +18,7 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
-    // ddfine the user type
+    // define the user type
     late UserType type;
     switch (json['type']) {
       case 0:
