@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.technical_support">
    <application
-        android:label="technical_support"
+        android:label="Tech Support"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
