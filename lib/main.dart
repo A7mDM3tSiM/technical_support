@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:technical_support/provider/login_provider.dart';
 
 import 'components/routes/routes.dart';
 import 'components/theme/theme.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<ThemeManegerProvider>(
           create: (_) => ThemeManegerProvider(),
+        ),
+        ChangeNotifierProvider<LoginProvider>(
+          create: (_) => LoginProvider(),
         ),
       ],
       child: Consumer<ThemeManegerProvider>(

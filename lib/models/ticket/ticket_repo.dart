@@ -32,13 +32,12 @@ class TicketRepo {
     return Ticket.fromJson(response.data);
   }
 
-  Future<Ticket> deleteTicket(int id) async {
-    var response = await NetworkService.get(
+  Future<void> deleteTicket(int id) async {
+    await NetworkService.get(
       path: "/deleteTicket",
       params: {
         "id": id,
       },
     );
-    return Ticket.fromJson(response.data);
   }
 }

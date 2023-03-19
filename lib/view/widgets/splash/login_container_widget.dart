@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:technical_support/provider/login_provider.dart';
 
-import '../../../components/routes/routes.dart';
-import '../../../models/services/navigation_service.dart';
+import '../../../models/services/api_services.dart';
 import '../fileds/login_text_field.dart';
 
 class LoginConatinerWidget extends StatelessWidget {
@@ -38,10 +39,12 @@ class LoginConatinerWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: w * 0.05),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(h * 0.01),
-              child: CustomTextField(
-                controller: TextEditingController(),
-                h: h * 0.05,
-                hint: 'User Name',
+              child: Consumer<LoginProvider>(
+                builder: (_, login, __) => CustomTextField(
+                  controller: login.emailController,
+                  h: h * 0.05,
+                  hint: 'Email',
+                ),
               ),
             ),
           ),
@@ -52,28 +55,32 @@ class LoginConatinerWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: w * 0.05),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(h * 0.01),
-              child: CustomTextField(
-                controller: TextEditingController(),
-                h: h * 0.05,
-                hint: 'Password',
-                isPassword: true,
-                icon: Icons.visibility,
+              child: Consumer<LoginProvider>(
+                builder: (_, login, __) => CustomTextField(
+                  controller: login.passController,
+                  h: h * 0.05,
+                  hint: 'Password',
+                  isPassword: true,
+                  icon: Icons.visibility,
+                ),
               ),
             ),
           ),
           SizedBox(
             height: h * 0.02,
           ),
-          ElevatedButton(
-            onPressed: () {
-              NavigationService.push(Routes.homeRoute);
-            },
-            child: Text(
-              "Login",
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: h * 0.015,
-                    color: Colors.white,
-                  ),
+          Consumer<LoginProvider>(
+            builder: (_, login, __) => ElevatedButton(
+              onPressed: () => login.login(),
+              child: login.apiResponse.status == Status.loading
+                  ? const CircularProgressIndicator.adaptive()
+                  : Text(
+                      "Login",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontSize: h * 0.015,
+                            color: Colors.white,
+                          ),
+                    ),
             ),
           ),
         ],

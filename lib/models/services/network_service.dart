@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 enum Method { get, post }
 
 class NetworkService {
   static late Dio _dio;
-  static const String _baseUrl = 'http://apibaseurl.com/api/v1';
+  static const String _baseUrl = 'http://192.168.1.23/hesk-api/index.php?url=';
 
   /// initlize the dio services
   static void init() {
@@ -17,10 +18,13 @@ class NetworkService {
 
   static Future<Response> get({
     required String path,
-    Map<String, dynamic>? params,
+    dynamic params,
   }) async {
     try {
-      final response = await _dio.get(path, queryParameters: params);
+      final response = await _dio.get(
+        path,
+        queryParameters: params,
+      );
       return response;
     } on DioError catch (e) {
       print(e.message);

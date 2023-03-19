@@ -16,9 +16,10 @@ class _SplashViewState extends State<SplashView> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         // simulating api call for getting app details
+        // and checking the app status
         await Future.delayed(
           const Duration(
-            seconds: 4,
+            seconds: 2,
           ),
         );
         _endSplashLoading();
@@ -26,6 +27,8 @@ class _SplashViewState extends State<SplashView> {
     );
   }
 
+  // handeling the animation no real need for state mangement
+  // for simple animation
   bool _splashLoading = true;
 
   void _endSplashLoading() {
