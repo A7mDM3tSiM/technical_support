@@ -161,8 +161,8 @@ class _HomeViewState extends State<HomeView> {
                       builder: (context) => const BottomSheetWidget(),
                     );
                   },
-                  // TODO: will implement two diffrent icons one for create a ticket
-                  // and the anther for closing the bottom sheet
+                  // TODO: will implement two diffrent icons one for create
+                  // a ticket and the anther for closing the bottom sheet
                   child: const Icon(
                     Icons.add,
                     color: Colors.white,

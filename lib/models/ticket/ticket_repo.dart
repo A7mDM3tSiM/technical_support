@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:technical_support/models/services/network_service.dart';
 import 'package:technical_support/models/ticket/ticket_model.dart';
 
@@ -9,7 +11,7 @@ class TicketRepo {
         "id": id,
       },
     );
-    return Ticket.fromJson(response.data);
+    return Ticket.fromJson(jsonDecode(response.body));
   }
 
   Future<Ticket> createTicket(int id) async {
@@ -19,7 +21,7 @@ class TicketRepo {
         "id": id,
       },
     );
-    return Ticket.fromJson(response.data);
+    return Ticket.fromJson(jsonDecode(response.body));
   }
 
   Future<Ticket> updateTicket(int id) async {
@@ -29,7 +31,7 @@ class TicketRepo {
         "id": id,
       },
     );
-    return Ticket.fromJson(response.data);
+    return Ticket.fromJson(jsonDecode(response.body));
   }
 
   Future<void> deleteTicket(int id) async {

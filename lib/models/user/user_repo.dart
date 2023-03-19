@@ -13,12 +13,12 @@ class UserRepo {
   Future<User> login(String email, String pass) async {
     var response = await NetworkService.post(
       path: "login",
-      data: {
+      body: {
         "email": email,
         "password": pass,
       },
     );
-    return User.fromJson(response.data);
+    return User.fromJson(jsonDecode(response.body));
   }
 
   Future<void> logout() async {
@@ -32,6 +32,7 @@ class UserRepo {
         "token": user.token,
       },
     );
-    return response.data.map((json) => Ticket.fromJson(json)).toList();
+    final decodedRes = jsonDecode(response.body);
+    return decodedRes.map((json) => Ticket.fromJson(json)).toList();
   }
 }

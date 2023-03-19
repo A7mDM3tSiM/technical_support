@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 enum Method { get, post }
 
 class NetworkService {
+  /// dio is not used for now but it is left for future porposes
+  /// ignore: unused_field
   static late Dio _dio;
   static const String _baseUrl = 'http://192.168.1.23/hesk-api/index.php?url=';
 
@@ -16,14 +18,16 @@ class NetworkService {
     );
   }
 
-  static Future<Response> get({
+  static Future<http.Response> get({
     required String path,
     dynamic params,
   }) async {
     try {
-      final response = await _dio.get(
-        path,
-        queryParameters: params,
+      final response = await http.get(
+        Uri(
+          path: _baseUrl,
+          queryParameters: params,
+        ),
       );
       return response;
     } on DioError catch (e) {
@@ -32,14 +36,14 @@ class NetworkService {
     }
   }
 
-  static Future<Response> post({
+  static Future<http.Response> post({
     required String path,
-    Map<String, dynamic>? data,
+    Map<String, dynamic>? body,
   }) async {
     try {
-      final response = await _dio.post(
-        path,
-        data: data,
+      final response = await http.post(
+        Uri.parse(path),
+        body: body,
       );
       return response;
     } on DioError catch (e) {
