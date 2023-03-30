@@ -18,13 +18,13 @@ class User {
     type,
   }) {
     switch (type) {
-      case "1":
+      case 1:
         this.type = UserType.admin;
         break;
-      case "0":
+      case 0:
         this.type = UserType.agent;
         break;
-      case "2":
+      case 2:
         this.type = UserType.customer;
         break;
     }

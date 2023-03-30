@@ -1,9 +1,20 @@
 import 'dart:convert';
 
+import 'package:technical_support/models/services/database_services.dart';
 import 'package:technical_support/models/services/network_service.dart';
 import 'package:technical_support/models/ticket/ticket_model.dart';
 
 class TicketRepo {
+  Future<void> setTicket(String? uid, String topic, String description) async {
+    final db = DataBaseServiecs(uid: uid ?? "", collection: "tickets");
+    db.setTicket(
+      {
+        'topic': topic,
+        'description': description,
+      },
+    );
+  }
+
   Future<Ticket> getTicketDetails(int id) async {
     var response = await NetworkService.get(
       path: "/getTicketDetails",

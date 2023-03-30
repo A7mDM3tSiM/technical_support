@@ -96,24 +96,25 @@ class LoginConatinerWidget extends StatelessWidget {
             height: h * 0.02,
           ),
           Consumer<LoginProvider>(
-            builder: (_, login, __) => ElevatedButton(
-              onPressed: () {
-                if (_key.currentState != null) {
-                  if (_key.currentState!.validate()) {
-                    login.login();
-                  }
-                }
-              },
-              child: login.apiResponse.status == Status.loading
-                  ? const CircularProgressIndicator.adaptive()
-                  : Text(
+            builder: (_, login, __) => login.apiResponse.status ==
+                    Status.loading
+                ? const CircularProgressIndicator.adaptive()
+                : ElevatedButton(
+                    onPressed: () {
+                      if (_key.currentState != null) {
+                        if (_key.currentState!.validate()) {
+                          login.login();
+                        }
+                      }
+                    },
+                    child: Text(
                       "Login",
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontSize: h * 0.015,
                             color: Colors.white,
                           ),
                     ),
-            ),
+                  ),
           ),
         ],
       ),

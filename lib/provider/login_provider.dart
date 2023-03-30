@@ -37,13 +37,4 @@ class LoginProvider extends ChangeNotifier {
     emailController.text = "";
     passController.text = "";
   }
-
-  Future<void> getUserTickets() async {
-    try {
-      var tickets = await _userRepo.getUserTickets();
-      _userRepo.userTickets = tickets;
-    } catch (e) {
-      _apiResponse = ApiResponse.error(e.toString());
-    }
-  }
 }

@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:technical_support/models/services/navigation_service.dart';
+import 'package:technical_support/provider/ticket_provider.dart';
 import 'package:technical_support/view/widgets/ticket/add_file_widget.dart';
+
+import '../../../models/user/user_model.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ticket = Provider.of<TicketProvider>(context, listen: false);
+    final user = Provider.of<User?>(context);
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
 
     return Container(
       width: w,
+      height: h * 0.7,
       padding: EdgeInsets.symmetric(vertical: h * 0.05, horizontal: w * 0.05),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -27,9 +34,7 @@ class BottomSheetWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
         children: [
           Text(
             "Topic",
@@ -39,7 +44,7 @@ class BottomSheetWidget extends StatelessWidget {
             height: h * 0.005,
           ),
           TextField(
-            controller: TextEditingController(),
+            controller: ticket.topicController,
             decoration: InputDecoration(
               fillColor: Theme.of(context).colorScheme.surface,
             ),
@@ -58,7 +63,7 @@ class BottomSheetWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.surface,
             height: h * 0.2,
             child: TextFormField(
-              controller: TextEditingController(),
+              controller: ticket.descriptionController,
               maxLines: null,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(h * 0.01),
@@ -99,9 +104,7 @@ class BottomSheetWidget extends StatelessWidget {
                 width: w * 0.03,
               ),
               ElevatedButton(
-                onPressed: () {
-                  NavigationService.pop();
-                },
+                onPressed: () => ticket.setTicket(user?.uid),
                 child: Text(
                   "Send Ticket",
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(

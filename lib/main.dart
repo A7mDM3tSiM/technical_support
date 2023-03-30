@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:technical_support/models/user/user_model.dart';
 import 'package:technical_support/models/user/user_repo.dart';
 import 'package:technical_support/provider/login_provider.dart';
+import 'package:technical_support/provider/ticket_provider.dart';
 
 import 'components/routes/routes.dart';
 import 'components/theme/theme.dart';
@@ -52,6 +53,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<LoginProvider>(
           create: (_) => LoginProvider(),
+        ),
+        ChangeNotifierProvider<TicketProvider>(
+          create: (_) => TicketProvider(),
         ),
       ],
       child: Consumer<ThemeManegerProvider>(

@@ -1,17 +1,9 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:technical_support/models/services/network_service.dart';
 
-import '../ticket/ticket_model.dart';
 import 'user_model.dart' as u;
 
 class UserRepo {
-  /// contain the current user data
-  late u.User user;
-  late List<Ticket> userTickets;
-
   final _auth = FirebaseAuth.instance;
 
   Stream<u.User?> get userData {
@@ -44,16 +36,5 @@ class UserRepo {
 
   Future<void> logout() async {
     await _auth.signOut();
-  }
-
-  Future<List<Ticket>> getUserTickets() async {
-    var response = await NetworkService.get(
-      path: "tickets",
-      params: {
-        "uid": user.uid,
-      },
-    );
-    final decodedRes = jsonDecode(response.body);
-    return decodedRes.map((json) => Ticket.fromJson(json)).toList();
   }
 }

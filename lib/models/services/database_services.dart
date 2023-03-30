@@ -14,6 +14,10 @@ class DataBaseServiecs {
     _db = FirebaseFirestore.instance.collection(collection);
   }
 
+  Future<void> setTicket(Map<String, dynamic> data) async {
+    await _db.doc().set(data);
+  }
+
   Stream<User> get userData {
     return _db.doc(uid).snapshots().map(_userFromFirebaseUser);
   }
