@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:technical_support/components/routes/routes.dart';
 import 'package:technical_support/components/statics/statics.dart';
 import 'package:technical_support/models/services/navigation_service.dart';
@@ -16,9 +17,9 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  var userType = UserType.admin;
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
 
@@ -27,7 +28,7 @@ class _HomeViewState extends State<HomeView> {
       body: SafeArea(
         child: Stack(
           children: [
-            userType == UserType.customer
+            user?.type == UserType.customer
                 ? const Center(
                     child: TicketDetaiilsCustomerWidget(),
                   )
@@ -131,25 +132,14 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                   ),
-            GestureDetector(
-              onTap: () {
-                setState(
-                  () {
-                    userType = userType == UserType.admin
-                        ? UserType.customer
-                        : UserType.admin;
-                  },
-                );
-              },
-              child: const CustomAppBar(label: "Technical Support"),
-            ),
+            const CustomAppBar(label: "Technical Support"),
           ],
         ),
       ),
-      floatingActionButton: userType == UserType.customer
+      floatingActionButton: user?.type == UserType.customer
           ? Builder(
               builder: (context) {
-                if (userType != UserType.customer) {
+                if (user?.type != UserType.customer) {
                   return const SizedBox();
                 }
                 return FloatingActionButton(

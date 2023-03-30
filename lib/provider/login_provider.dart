@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:technical_support/components/routes/routes.dart';
 import 'package:technical_support/models/services/api_services.dart';
-import 'package:technical_support/models/services/navigation_service.dart';
 import 'package:technical_support/models/user/user_repo.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -21,14 +19,23 @@ class LoginProvider extends ChangeNotifier {
         emailController.text,
         passController.text,
       );
-      _userRepo.user = user;
-      await getUserTickets();
-      _apiResponse = ApiResponse.completed(user);
-      NavigationService.push(Routes.homeRoute);
+
+      _disposeControllers();
+
+      if (user != null) {
+        _apiResponse = ApiResponse.completed(user);
+      } else {
+        _apiResponse = ApiResponse.error("Wrong email or password");
+      }
     } catch (e) {
       _apiResponse = ApiResponse.error(e.toString());
     }
     notifyListeners();
+  }
+
+  void _disposeControllers() {
+    emailController.text = "";
+    passController.text = "";
   }
 
   Future<void> getUserTickets() async {

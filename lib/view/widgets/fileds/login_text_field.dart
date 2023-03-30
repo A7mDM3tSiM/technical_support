@@ -6,14 +6,18 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final IconData? icon;
   final bool? isPassword;
+  final GlobalKey<FormState>? formKey;
+  final String? validatior;
 
   const CustomTextField({
     super.key,
     required this.h,
     required this.hint,
     required this.controller,
+    this.formKey,
     this.icon,
     this.isPassword,
+    this.validatior,
   });
 
   @override
@@ -21,6 +25,7 @@ class CustomTextField extends StatelessWidget {
     return SizedBox(
       height: h,
       child: TextFormField(
+        key: formKey,
         controller: controller,
         obscureText: isPassword ?? false,
         style: TextStyle(color: Colors.white, fontSize: h * 0.4),

@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:technical_support/provider/login_provider.dart';
 
 import '../../../models/services/api_services.dart';
-import '../fileds/login_text_field.dart';
 
 class LoginConatinerWidget extends StatelessWidget {
   const LoginConatinerWidget({super.key});
+  static final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,35 +35,61 @@ class LoginConatinerWidget extends StatelessWidget {
           SizedBox(
             height: h * 0.01,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: w * 0.05),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(h * 0.01),
-              child: Consumer<LoginProvider>(
-                builder: (_, login, __) => CustomTextField(
-                  controller: login.emailController,
-                  h: h * 0.05,
-                  hint: 'Email',
+          Form(
+            key: _key,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: w * 0.05),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(h * 0.01),
+                    child: Consumer<LoginProvider>(
+                      builder: (_, login, __) => TextFormField(
+                        controller: login.emailController,
+                        validator: (val) => val != null && !val.contains("@")
+                            ? "Should be a vaild email"
+                            : null,
+                        style:
+                            TextStyle(color: Colors.white, fontSize: h * 0.02),
+                        cursorColor: Colors.white,
+                        decoration: const InputDecoration(
+                          hintText: "Email",
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: h * 0.02,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: w * 0.05),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(h * 0.01),
-              child: Consumer<LoginProvider>(
-                builder: (_, login, __) => CustomTextField(
-                  controller: login.passController,
-                  h: h * 0.05,
-                  hint: 'Password',
-                  isPassword: true,
-                  icon: Icons.visibility,
+                SizedBox(
+                  height: h * 0.02,
                 ),
-              ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: w * 0.05),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(h * 0.01),
+                    child: Consumer<LoginProvider>(
+                      builder: (_, login, __) => TextFormField(
+                        controller: login.passController,
+                        validator: (val) => val != null && val.length < 6
+                            ? "Should be over 6 charachters"
+                            : null,
+                        style:
+                            TextStyle(color: Colors.white, fontSize: h * 0.02),
+                        obscureText: true,
+                        cursorColor: Colors.white,
+                        decoration: const InputDecoration(
+                          hintText: "Password",
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(
@@ -71,7 +97,13 @@ class LoginConatinerWidget extends StatelessWidget {
           ),
           Consumer<LoginProvider>(
             builder: (_, login, __) => ElevatedButton(
-              onPressed: () => login.login(),
+              onPressed: () {
+                if (_key.currentState != null) {
+                  if (_key.currentState!.validate()) {
+                    login.login();
+                  }
+                }
+              },
               child: login.apiResponse.status == Status.loading
                   ? const CircularProgressIndicator.adaptive()
                   : Text(

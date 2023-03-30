@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:technical_support/models/user/user_model.dart';
+import 'package:technical_support/models/user/user_repo.dart';
 import 'package:technical_support/provider/login_provider.dart';
 
 import 'components/routes/routes.dart';
@@ -14,6 +17,9 @@ final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 Future<void> main() async {
   // Global Init
   WidgetsFlutterBinding.ensureInitialized();
+
+  // init firebase
+  await Firebase.initializeApp();
 
   // Init EasyLocalization
   await EasyLocalization.ensureInitialized();
@@ -50,18 +56,24 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<ThemeManegerProvider>(
         builder: (context, theme, _) {
-          return MaterialApp(
-            routes: Routes.routes,
-            initialRoute: Routes.splashRoute,
-            navigatorKey: NavigationService.navKey,
-            scaffoldMessengerKey: scaffoldMessengerKey,
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: theme.themeMode,
-            locale: context.locale,
-            debugShowCheckedModeBanner: false,
+          return StreamProvider<User?>.value(
+            value: UserRepo().userData,
+            initialData: null,
+            builder: (context, snapshot) {
+              return MaterialApp(
+                routes: Routes.routes,
+                initialRoute: Routes.wrapper,
+                navigatorKey: NavigationService.navKey,
+                scaffoldMessengerKey: scaffoldMessengerKey,
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                theme: lightTheme,
+                darkTheme: darkTheme,
+                themeMode: theme.themeMode,
+                locale: context.locale,
+                debugShowCheckedModeBanner: false,
+              );
+            },
           );
         },
       ),

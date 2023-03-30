@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:technical_support/models/user/user_repo.dart';
 
 class CustomAppBar extends StatelessWidget {
   final String label;
@@ -34,18 +35,11 @@ class CustomAppBar extends StatelessWidget {
                 iconSize: h * 0.035,
                 color: Colors.white,
               ),
-              SizedBox(
-                width: w * 0.02,
-              ),
-              CircleAvatar(
-                radius: h * 0.016,
-                backgroundColor: Colors.white,
-                child: Text(
-                  "M",
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontSize: h * 0.02,
-                      ),
-                ),
+              IconButton(
+                onPressed: () => UserRepo().logout(),
+                icon: const Icon(Icons.logout),
+                iconSize: h * 0.035,
+                color: Colors.white,
               ),
             ],
           ),

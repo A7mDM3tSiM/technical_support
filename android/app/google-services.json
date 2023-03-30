@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "871924541706",
+    "project_id": "izdiad-tech-support",
+    "storage_bucket": "izdiad-tech-support.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871924541706:android:3cb229f77bb2a6a652b2f3",
+        "android_client_info": {
+          "package_name": "com.izdiad.tech_support"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871924541706-38bi7d5n3s5g1as8l0t3tkakjkumeo7i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGC_7rI01TlD-SbsUipE9-lW3w0qciQRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871924541706-38bi7d5n3s5g1as8l0t3tkakjkumeo7i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

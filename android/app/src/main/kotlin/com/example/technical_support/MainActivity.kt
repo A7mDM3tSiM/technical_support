@@ -1,4 +1,4 @@
-package com.example.technical_support
+package com.izdiad.tech_support
 
 import io.flutter.embedding.android.FlutterActivity
 

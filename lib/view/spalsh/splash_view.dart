@@ -72,7 +72,7 @@ class _SplashViewState extends State<SplashView> {
               alignment:
                   _splashLoading ? const Alignment(0, -2.5) : Alignment.center,
               duration: const Duration(
-                milliseconds: 300,
+                seconds: 1,
               ),
               curve: Curves.fastOutSlowIn,
               child: const LoginConatinerWidget(),

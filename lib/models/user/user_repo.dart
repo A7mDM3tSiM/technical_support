@@ -1,35 +1,56 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:technical_support/models/services/network_service.dart';
 
 import '../ticket/ticket_model.dart';
-import 'user_model.dart';
+import 'user_model.dart' as u;
 
 class UserRepo {
   /// contain the current user data
-  late User user;
+  late u.User user;
   late List<Ticket> userTickets;
 
-  Future<User> login(String email, String pass) async {
-    var response = await NetworkService.post(
-      path: "login",
-      body: {
-        "email": email,
-        "password": pass,
-      },
-    );
-    return User.fromJson(jsonDecode(response.body));
+  final _auth = FirebaseAuth.instance;
+
+  Stream<u.User?> get userData {
+    return _auth.userChanges().map(_userFromFirebaseUser);
+  }
+
+  u.User? _userFromFirebaseUser(User? user) {
+    if (user != null) {
+      return u.User(
+        uid: user.uid,
+      );
+    }
+    return null;
+  }
+
+  Future<User?> login(String email, String pass) async {
+    try {
+      var response = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: pass,
+      );
+
+      return response.user;
+    } catch (e) {
+      debugPrint("$e");
+    }
+
+    return null;
   }
 
   Future<void> logout() async {
-    await NetworkService.get(path: "/logout");
+    await _auth.signOut();
   }
 
   Future<List<Ticket>> getUserTickets() async {
     var response = await NetworkService.get(
       path: "tickets",
       params: {
-        "token": user.token,
+        "uid": user.uid,
       },
     );
     final decodedRes = jsonDecode(response.body);
