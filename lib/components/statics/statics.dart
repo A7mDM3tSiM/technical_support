@@ -4,6 +4,7 @@ final ticketsList = <Ticket>[
   Ticket(
     id: "id",
     topic: "Topic",
+    description: "Description",
     status: "Status",
     priority: "Priority",
     assignedUser: "Assigned User",
@@ -13,6 +14,7 @@ final ticketsList = <Ticket>[
   Ticket(
     id: "id",
     topic: "Topic",
+    description: "Description",
     status: "Status",
     priority: "Priority",
     assignedUser: "Assigned User",
@@ -22,6 +24,7 @@ final ticketsList = <Ticket>[
   Ticket(
     id: "id",
     topic: "Topic",
+    description: "Description",
     status: "Status",
     priority: "Priority",
     assignedUser: "Assigned User",
@@ -31,6 +34,7 @@ final ticketsList = <Ticket>[
   Ticket(
     id: "id",
     topic: "Topic",
+    description: "Description",
     status: "Status",
     priority: "Priority",
     assignedUser: "Assigned User",

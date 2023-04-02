@@ -10,6 +10,8 @@ import 'package:technical_support/view/widgets/home/bototm_sheet_widget.dart';
 import 'package:technical_support/view/widgets/home/table_row.dart';
 import 'package:technical_support/view/widgets/ticket/ticket_detaild_customer_widget.dart';
 
+import '../../models/ticket/ticket_model.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -36,8 +38,27 @@ class _HomeViewState extends State<HomeView> {
             child: Stack(
               children: [
                 snapshot.data?.type == UserType.customer
-                    ? const Center(
-                        child: TicketDetaiilsCustomerWidget(),
+                    ? StreamBuilder<List<Ticket>>(
+                        stream:
+                            DataBaseServiecs(collection: 'tickets').ticketsList,
+                        builder: (context, snapshot) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data?.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: w * 0.05,
+                                  vertical: h * 0.1,
+                                ),
+                                child: TicketDetaiilsCustomerWidget(
+                                  ticket: snapshot.data?[index],
+                                ),
+                              );
+                            },
+                          );
+                        },
                       )
                     : SingleChildScrollView(
                         child: Column(
@@ -122,7 +143,8 @@ class _HomeViewState extends State<HomeView> {
                                             id: ticketsList[index].id,
                                             topic: ticketsList[index].topic,
                                             lastUpdate:
-                                                ticketsList[index].updatedAt,
+                                                ticketsList[index].updatedAt ??
+                                                    '',
                                             status: ticketsList[index].status,
                                             priority:
                                                 ticketsList[index].priority,

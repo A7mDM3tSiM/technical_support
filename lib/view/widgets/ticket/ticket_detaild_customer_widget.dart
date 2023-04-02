@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:technical_support/view/widgets/fileds/ticket_details_filed.dart';
 import 'package:technical_support/view/widgets/ticket/customer_ticket_details_sub_widget.dart';
 
+import '../../../models/ticket/ticket_model.dart';
+
 class TicketDetaiilsCustomerWidget extends StatelessWidget {
-  const TicketDetaiilsCustomerWidget({super.key});
+  final Ticket? ticket;
+  const TicketDetaiilsCustomerWidget({super.key, required this.ticket});
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +60,13 @@ class TicketDetaiilsCustomerWidget extends StatelessWidget {
                 EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * .02),
             child: Column(
               children: [
-                const CustomerTicketDetailsSubWidget(
+                CustomerTicketDetailsSubWidget(
                   label: "Topic:",
-                  detail: "The Ticket Topic",
+                  detail: ticket?.topic ?? "",
                 ),
-                const CustomerTicketDetailsSubWidget(
+                CustomerTicketDetailsSubWidget(
                   label: "Status:",
-                  detail: "The Ticket Status",
+                  detail: ticket?.status ?? "",
                 ),
                 const CustomerTicketDetailsSubWidget(
                   label: "CreatedAt:",
@@ -106,13 +109,7 @@ class TicketDetaiilsCustomerWidget extends StatelessWidget {
                   ),
                   child: TextField(
                     controller: TextEditingController(
-                      text:
-                          """Flutter is Google's SDK for crafting beautiful, fast"""
-                          """ user experiences for mobile, """
-                          """web, and desktop from a single codebase. Flutter works"""
-                          """ with existing code, is used"""
-                          """ by developers and organizations around the world, and """
-                          """is free and open source.""",
+                      text: ticket?.description,
                     ),
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
                           fontWeight: FontWeight.w400,
