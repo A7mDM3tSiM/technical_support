@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_support/components/routes/routes.dart';
 import 'package:technical_support/components/statics/statics.dart';
+import 'package:technical_support/models/arguments/ticket_view_arguments.dart';
 import 'package:technical_support/models/services/database_services.dart';
 import 'package:technical_support/models/services/navigation_service.dart';
+import 'package:technical_support/models/ticket/ticket_repo.dart';
 import 'package:technical_support/models/user/user_model.dart';
 import 'package:technical_support/view/widgets/global/custom_app_bar.dart';
 import 'package:technical_support/view/widgets/home/bototm_sheet_widget.dart';
@@ -60,110 +62,125 @@ class _HomeViewState extends State<HomeView> {
                           );
                         },
                       )
-                    : SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: h * 0.07,
+                    : Column(
+                        children: [
+                          SizedBox(
+                            height: h * 0.07,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: w * 0.075,
+                              vertical: h * 0.025,
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: w * 0.075,
-                                vertical: h * 0.025,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: w * 0.6,
-                                    height: h * 0.05,
-                                    child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(h * 0.005),
-                                      child: TextField(
-                                        style: TextStyle(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: w * 0.6,
+                                  height: h * 0.05,
+                                  child: ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.circular(h * 0.005),
+                                    child: TextField(
+                                      style: TextStyle(
+                                        fontSize: h * 0.02,
+                                      ),
+                                      decoration: InputDecoration(
+                                        hintText: "Search",
+                                        hintStyle: TextStyle(
                                           fontSize: h * 0.02,
                                         ),
-                                        decoration: InputDecoration(
-                                          hintText: "Search",
-                                          hintStyle: TextStyle(
-                                            fontSize: h * 0.02,
-                                          ),
-                                          fillColor: Theme.of(context)
-                                              .colorScheme
-                                              .surface,
-                                        ),
+                                        fillColor: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
                                       ),
                                     ),
                                   ),
-                                  DropdownButton(
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text(
-                                          "Status",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge
-                                              ?.copyWith(fontSize: h * 0.017),
-                                        ),
-                                      ),
-                                    ],
-                                    onChanged: (item) {},
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: h * 0.01,
-                            ),
-                            SizedBox(
-                              // give this Sizdbox the height exactly enough for all
-                              // the tickets
-                              height: ticketsList.length * (h * 0.05),
-                              child: ListView(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                children: [
-                                  SizedBox(
-                                    width: w * 1.45,
-                                    height: h * 0.5,
-                                    child: ListView.builder(
-                                      itemCount: ticketsList.length,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            NavigationService.push(
-                                              Routes.ticketDetailsRoute,
-                                            );
-                                          },
-                                          child: CustomTableRow(
-                                            id: ticketsList[index].id,
-                                            topic: ticketsList[index].topic,
-                                            lastUpdate:
-                                                ticketsList[index].updatedAt ??
-                                                    '',
-                                            status: ticketsList[index].status,
-                                            priority:
-                                                ticketsList[index].priority,
-                                            assignedUser:
-                                                ticketsList[index].assignedUser,
-                                            isFirst: index == 0,
+                                ),
+                                DropdownButton<String>(
+                                  items: ticketStatus
+                                      .map(
+                                        (status) => DropdownMenuItem<String>(
+                                          value: status,
+                                          child: Text(
+                                            status,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(fontSize: h * 0.017),
                                           ),
-                                        );
-                                      },
+                                        ),
+                                      )
+                                      .toList(),
+                                  onChanged: (item) {},
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: h * 0.01,
+                          ),
+                          StreamBuilder<List<Ticket?>>(
+                            stream: TicketRepo().ticketList,
+                            builder: (context, snapshot) {
+                              final ticketsList = snapshot.data ?? [];
+                              return SizedBox(
+                                // give this Sizdbox the height exactly enough for all
+                                // the tickets
+                                height: ticketsList.length * (h * 0.05),
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    SizedBox(
+                                      width: w * 1.45,
+                                      height: h * 0.5,
+                                      child: ListView.builder(
+                                        itemCount: ticketsList.length,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              NavigationService.push(
+                                                Routes.ticketDetailsRoute,
+                                                arg: TicketViewArguments(
+                                                  ticketsList[index],
+                                                ),
+                                              );
+                                            },
+                                            child: CustomTableRow(
+                                              id: ticketsList[index]?.id ?? "",
+                                              topic:
+                                                  ticketsList[index]?.topic ??
+                                                      "",
+                                              lastUpdate: ticketsList[index]
+                                                      ?.updatedAt ??
+                                                  '',
+                                              status:
+                                                  ticketsList[index]?.status ??
+                                                      "",
+                                              priority: ticketsList[index]
+                                                      ?.priority ??
+                                                  "",
+                                              assignedUser: ticketsList[index]
+                                                      ?.assignedUser ??
+                                                  "",
+                                              isFirst: index == 0,
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: h * 0.1,
-                            ),
-                          ],
-                        ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            height: h * 0.1,
+                          ),
+                        ],
                       ),
                 const CustomAppBar(label: "Technical Support"),
               ],

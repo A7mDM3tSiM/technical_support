@@ -63,21 +63,19 @@ class MyApp extends StatelessWidget {
           return StreamProvider<User?>.value(
             value: UserRepo().userData,
             initialData: null,
-            builder: (context, snapshot) {
-              return MaterialApp(
-                routes: Routes.routes,
-                initialRoute: Routes.wrapper,
-                navigatorKey: NavigationService.navKey,
-                scaffoldMessengerKey: scaffoldMessengerKey,
-                localizationsDelegates: context.localizationDelegates,
-                supportedLocales: context.supportedLocales,
-                theme: lightTheme,
-                darkTheme: darkTheme,
-                themeMode: theme.themeMode,
-                locale: context.locale,
-                debugShowCheckedModeBanner: false,
-              );
-            },
+            child: MaterialApp(
+              routes: Routes.routes,
+              initialRoute: Routes.wrapper,
+              navigatorKey: NavigationService.navKey,
+              scaffoldMessengerKey: scaffoldMessengerKey,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: theme.themeMode,
+              locale: context.locale,
+              debugShowCheckedModeBanner: false,
+            ),
           );
         },
       ),

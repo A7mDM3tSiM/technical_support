@@ -15,6 +15,13 @@ class TicketRepo {
     );
   }
 
+  Future<void> updateTicket(String ticketId, Map<String, dynamic> data) async {
+    await DataBaseServiecs(collection: "tickets").updateTicket(
+      ticketId,
+      data,
+    );
+  }
+
   Stream<List<Ticket>> get ticketList {
     return DataBaseServiecs(collection: 'tickets').ticketsList;
   }

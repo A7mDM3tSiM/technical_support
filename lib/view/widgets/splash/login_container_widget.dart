@@ -101,6 +101,7 @@ class LoginConatinerWidget extends StatelessWidget {
                 ? const CircularProgressIndicator.adaptive()
                 : ElevatedButton(
                     onPressed: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
                       if (_key.currentState != null) {
                         if (_key.currentState!.validate()) {
                           login.login();

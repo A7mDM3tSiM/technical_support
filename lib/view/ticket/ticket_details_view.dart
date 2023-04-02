@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:technical_support/components/statics/statics.dart';
+import 'package:technical_support/models/arguments/ticket_view_arguments.dart';
 import 'package:technical_support/view/widgets/fileds/ticket_details_filed.dart';
 import 'package:technical_support/view/widgets/global/custom_app_bar.dart';
 import 'package:technical_support/view/widgets/ticket/add_file_widget.dart';
 import 'package:technical_support/view/widgets/ticket/ticket_details_widget.dart';
 
+import '../../provider/ticket_provider.dart';
+
 class TicketDetailsView extends StatelessWidget {
   const TicketDetailsView({super.key});
 
+  String? _priorityDropDownValue(String priority) {
+    if (ticketPriorties.contains(priority)) {
+      return priority;
+    }
+    return null;
+  }
+
+  String? _statusDropDownValue(String status) {
+    if (ticketStatus.contains(status)) {
+      return status;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final ticketProvider = Provider.of<TicketProvider>(context, listen: false);
+    final args =
+        ModalRoute.of(context)!.settings.arguments as TicketViewArguments;
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
 
@@ -71,19 +93,30 @@ class TicketDetailsView extends StatelessWidget {
                                 SizedBox(
                                   width: w * 0.05,
                                 ),
-                                DropdownButton(
-                                  items: [
-                                    DropdownMenuItem(
-                                      child: Text(
-                                        "Priority",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelLarge
-                                            ?.copyWith(fontSize: h * 0.017),
-                                      ),
-                                    ),
-                                  ],
-                                  onChanged: (item) {},
+                                DropdownButton<String>(
+                                  value: _priorityDropDownValue(
+                                    args.ticket?.priority ?? "",
+                                  ),
+                                  items: ticketPriorties
+                                      .map(
+                                        (priorty) => DropdownMenuItem<String>(
+                                          value: priorty,
+                                          child: Text(
+                                            priorty,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(fontSize: h * 0.017),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                  onChanged: (item) {
+                                    if (item != null) {
+                                      ticketProvider.toUpdateData['priority'] =
+                                          item;
+                                    }
+                                  },
                                 ),
                               ],
                             ),
@@ -103,24 +136,37 @@ class TicketDetailsView extends StatelessWidget {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  child: DropdownButton(
+                                  child: DropdownButton<String>(
                                     underline: const SizedBox(),
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text(
-                                          "Submit as",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge
-                                              ?.copyWith(fontSize: h * 0.017),
-                                        ),
-                                      ),
-                                    ],
-                                    onChanged: (item) {},
+                                    value: _statusDropDownValue(
+                                      args.ticket?.status ?? "",
+                                    ),
+                                    items: ticketStatus
+                                        .map(
+                                          (status) => DropdownMenuItem<String>(
+                                            value: status,
+                                            child: Text(
+                                              status,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge
+                                                  ?.copyWith(
+                                                      fontSize: h * 0.017),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                    onChanged: (item) {
+                                      if (item != null) {
+                                        ticketProvider.toUpdateData['status'] =
+                                            item;
+                                      }
+                                    },
                                   ),
                                 ),
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () => ticketProvider
+                                      .updateTicket(args.ticket?.id),
                                   child: Text(
                                     "Submit",
                                     style: Theme.of(context)

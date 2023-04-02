@@ -4,7 +4,6 @@ import 'package:technical_support/models/ticket/ticket_repo.dart';
 import '../models/services/api_services.dart';
 
 class TicketProvider extends ChangeNotifier {
-  final _ticketRepo = TicketRepo();
   late var _apiResponse = ApiResponse.initial('init');
 
   ApiResponse get apiResponse => _apiResponse;
@@ -12,12 +11,14 @@ class TicketProvider extends ChangeNotifier {
   TextEditingController topicController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
+  var toUpdateData = <String, dynamic>{};
+
   void setTicket(String? uid) async {
     try {
       _apiResponse = ApiResponse.loading("Loading...");
       notifyListeners();
 
-      await _ticketRepo.setTicket(
+      await TicketRepo().setTicket(
         uid,
         topicController.text,
         descriptionController.text,
@@ -29,6 +30,8 @@ class TicketProvider extends ChangeNotifier {
       _apiResponse = ApiResponse.error(e.toString());
     }
   }
+
+  void updateTicket(String? ticketId) async {}
 
   void _disposeControllers() {
     topicController.text = "";

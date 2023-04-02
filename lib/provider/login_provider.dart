@@ -3,7 +3,6 @@ import 'package:technical_support/models/services/api_services.dart';
 import 'package:technical_support/models/user/user_repo.dart';
 
 class LoginProvider extends ChangeNotifier {
-  final _userRepo = UserRepo();
   late var _apiResponse = ApiResponse.initial('init');
 
   var emailController = TextEditingController();
@@ -15,7 +14,7 @@ class LoginProvider extends ChangeNotifier {
     _apiResponse = ApiResponse.loading('Loading');
     notifyListeners();
     try {
-      var user = await _userRepo.login(
+      var user = await UserRepo().login(
         emailController.text,
         passController.text,
       );

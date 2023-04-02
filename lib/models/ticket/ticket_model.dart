@@ -8,7 +8,7 @@ class Ticket {
   final String? cratedAt;
   final String? updatedAt;
 
-  Ticket({
+  const Ticket({
     required this.id,
     required this.topic,
     required this.description,

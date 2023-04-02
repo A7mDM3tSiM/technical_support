@@ -20,6 +20,10 @@ class DataBaseServiecs {
     await _db.doc().set(data);
   }
 
+  Future<void> updateTicket(String ticketId, Map<String, dynamic> data) async {
+    await _db.doc(ticketId).update(data);
+  }
+
   Stream<User> get userData {
     return _db.doc(uid).snapshots().map(_userFromFirebaseUser);
   }
@@ -41,7 +45,7 @@ class DataBaseServiecs {
     return snapshot.docs.map(
       (doc) {
         return Ticket(
-          id: 'id',
+          id: snapshot.docs.first.id,
           topic: doc['topic'],
           description: doc['description'],
           status: doc['status'],
