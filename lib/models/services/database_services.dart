@@ -45,12 +45,14 @@ class DataBaseServiecs {
     return snapshot.docs.map(
       (doc) {
         return Ticket(
-          id: snapshot.docs.first.id,
+          id: doc.id,
           topic: doc['topic'],
           description: doc['description'],
           status: doc['status'],
           priority: doc['priority'],
           assignedUser: doc['assignedUser'],
+          cratedAt: doc['createdAt'],
+          updatedAt: doc['updatedAt'],
         );
       },
     ).toList();

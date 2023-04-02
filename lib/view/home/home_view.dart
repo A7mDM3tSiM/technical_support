@@ -44,6 +44,11 @@ class _HomeViewState extends State<HomeView> {
                         stream:
                             DataBaseServiecs(collection: 'tickets').ticketsList,
                         builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            );
+                          }
                           return ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
@@ -123,7 +128,21 @@ class _HomeViewState extends State<HomeView> {
                           StreamBuilder<List<Ticket?>>(
                             stream: TicketRepo().ticketList,
                             builder: (context, snapshot) {
-                              final ticketsList = snapshot.data ?? [];
+                              final List<Ticket?> ticketsList = [
+                                const Ticket()
+                              ];
+                              ticketsList.addAll(snapshot.data ?? []);
+
+                              if (!snapshot.hasData) {
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      height: h * 0.35,
+                                    ),
+                                    const CircularProgressIndicator.adaptive(),
+                                  ],
+                                );
+                              }
                               return SizedBox(
                                 // give this Sizdbox the height exactly enough for all
                                 // the tickets
@@ -133,7 +152,7 @@ class _HomeViewState extends State<HomeView> {
                                   scrollDirection: Axis.horizontal,
                                   children: [
                                     SizedBox(
-                                      width: w * 1.45,
+                                      width: w * 1.465,
                                       height: h * 0.5,
                                       child: ListView.builder(
                                         itemCount: ticketsList.length,
@@ -142,15 +161,17 @@ class _HomeViewState extends State<HomeView> {
                                         itemBuilder: (context, index) {
                                           return GestureDetector(
                                             onTap: () {
-                                              NavigationService.push(
-                                                Routes.ticketDetailsRoute,
-                                                arg: TicketViewArguments(
-                                                  ticketsList[index],
-                                                ),
-                                              );
+                                              if (index != 0) {
+                                                NavigationService.push(
+                                                  Routes.ticketDetailsRoute,
+                                                  arg: TicketViewArguments(
+                                                    ticketsList[index],
+                                                  ),
+                                                );
+                                              }
                                             },
                                             child: CustomTableRow(
-                                              id: ticketsList[index]?.id ?? "",
+                                              id: index.toString(),
                                               topic:
                                                   ticketsList[index]?.topic ??
                                                       "",

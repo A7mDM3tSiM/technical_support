@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_support/components/statics/statics.dart';
 import 'package:technical_support/models/arguments/ticket_view_arguments.dart';
+import 'package:technical_support/models/services/api_services.dart';
 import 'package:technical_support/view/widgets/fileds/ticket_details_filed.dart';
 import 'package:technical_support/view/widgets/global/custom_app_bar.dart';
 import 'package:technical_support/view/widgets/ticket/add_file_widget.dart';
@@ -52,7 +53,7 @@ class TicketDetailsView extends StatelessWidget {
                       SizedBox(
                         height: h * 0.07,
                       ),
-                      const TicketDetailsWidget(),
+                      TicketDetailsWidget(ticket: args.ticket),
                       SizedBox(
                         height: h * 0.025,
                       ),
@@ -164,19 +165,31 @@ class TicketDetailsView extends StatelessWidget {
                                     },
                                   ),
                                 ),
-                                ElevatedButton(
-                                  onPressed: () => ticketProvider
-                                      .updateTicket(args.ticket?.id),
-                                  child: Text(
-                                    "Submit",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                          color: Colors.white,
-                                        ),
-                                  ),
-                                )
+                                Consumer<TicketProvider>(
+                                    builder: (_, ticketProvider, __) {
+                                  if (ticketProvider.apiResponse.status ==
+                                      Status.loading) {
+                                    return const CircularProgressIndicator
+                                        .adaptive();
+                                  }
+                                  return ElevatedButton(
+                                    onPressed: () {
+                                      ticketProvider.toUpdateData['updatedAt'] =
+                                          DateTime.now().toString();
+                                      ticketProvider
+                                          .updateTicket(args.ticket?.id);
+                                    },
+                                    child: Text(
+                                      "Submit",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                            color: Colors.white,
+                                          ),
+                                    ),
+                                  );
+                                })
                               ],
                             ),
                           ],

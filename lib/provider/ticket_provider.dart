@@ -29,9 +29,23 @@ class TicketProvider extends ChangeNotifier {
     } catch (e) {
       _apiResponse = ApiResponse.error(e.toString());
     }
+
+    notifyListeners();
   }
 
-  void updateTicket(String? ticketId) async {}
+  void updateTicket(String? ticketId) async {
+    try {
+      _apiResponse = ApiResponse.loading("Loading...");
+      notifyListeners();
+
+      await TicketRepo().updateTicket(ticketId ?? "", toUpdateData);
+      _apiResponse = ApiResponse.completed(null);
+    } catch (e) {
+      _apiResponse = ApiResponse.error(e.toString());
+    }
+
+    notifyListeners();
+  }
 
   void _disposeControllers() {
     topicController.text = "";

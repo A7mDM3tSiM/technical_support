@@ -11,6 +11,7 @@ class TicketRepo {
         'status': 'un solved',
         'priority': 'high',
         'assignedUser': '',
+        'createdAt': DateTime.now().toString()
       },
     );
   }

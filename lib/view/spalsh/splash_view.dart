@@ -32,11 +32,11 @@ class _SplashViewState extends State<SplashView> {
   bool _splashLoading = true;
 
   void _endSplashLoading() {
-    setState(
-      () {
+    if (mounted) {
+      setState(() {
         _splashLoading = false;
-      },
-    );
+      });
+    }
   }
 
   @override

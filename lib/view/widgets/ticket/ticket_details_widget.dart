@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/ticket/ticket_model.dart';
+import 'package:technical_support/components/statics/statics.dart';
+
 class TicketDetailsWidget extends StatelessWidget {
-  const TicketDetailsWidget({super.key});
+  final Ticket? ticket;
+  const TicketDetailsWidget({required this.ticket, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,7 @@ class TicketDetailsWidget extends StatelessWidget {
                       ),
                 ),
                 TextSpan(
-                  text: "The Ticket Topic",
+                  text: ticket?.topic,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.black,
                         fontSize: h * 0.016,
@@ -68,7 +72,7 @@ class TicketDetailsWidget extends StatelessWidget {
                       ),
                 ),
                 TextSpan(
-                  text: "The Topic Status",
+                  text: ticket?.status,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.black,
                         fontSize: h * 0.016,
@@ -91,7 +95,7 @@ class TicketDetailsWidget extends StatelessWidget {
                       ),
                 ),
                 TextSpan(
-                  text: "The Ticket Prority",
+                  text: ticket?.priority,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.black,
                         fontSize: h * 0.016,
@@ -114,7 +118,7 @@ class TicketDetailsWidget extends StatelessWidget {
                       ),
                 ),
                 TextSpan(
-                  text: "15:30:00 1/1/2023",
+                  text: ticket?.cratedAt,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.black,
                         fontSize: h * 0.016,
@@ -137,7 +141,7 @@ class TicketDetailsWidget extends StatelessWidget {
                       ),
                 ),
                 TextSpan(
-                  text: "15:30:00 1/1/2023",
+                  text: ticket?.updatedAt,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.black,
                         fontSize: h * 0.016,
@@ -176,12 +180,7 @@ class TicketDetailsWidget extends StatelessWidget {
               ),
             ),
             child: TextField(
-              controller: TextEditingController(
-                text:
-                    """Flutter is Google's SDK for crafting beautiful, fast user experiences for mobile, """
-                    """web, and desktop from a single codebase. Flutter works with existing code, is used"""
-                    """ by developers and organizations around the world, and is free and open source.""",
-              ),
+              controller: TextEditingController(text: ticket?.description),
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[700],
