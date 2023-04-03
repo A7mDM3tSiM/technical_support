@@ -32,7 +32,7 @@ class CustomTableRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _emplyees =
+    final emplyees =
         Provider.of<UserProvider>(context, listen: false).employees;
     var w = MediaQuery.of(context).size.width;
 
@@ -63,7 +63,7 @@ class CustomTableRow extends StatelessWidget {
               : Theme.of(context).colorScheme.surface,
         ),
         TableRowCell(
-          label: isFirst ? "Assigned User" : _getAssignedUser(_emplyees),
+          label: isFirst ? "Assigned User" : _getAssignedUser(emplyees),
           width: w * 0.25,
           textColor: isFirst ? Colors.white : Colors.black,
           color: isFirst

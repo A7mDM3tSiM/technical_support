@@ -228,7 +228,10 @@ class TicketDetailsView extends StatelessWidget {
                 ),
               ),
             ),
-            const CustomAppBar(label: "Ticket Details")
+            const CustomAppBar(
+              label: "Ticket Details",
+              hasBackButton: true,
+            )
           ],
         ),
       ),

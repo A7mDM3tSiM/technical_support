@@ -228,7 +228,10 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ],
                       ),
-                const CustomAppBar(label: "Technical Support"),
+                const CustomAppBar(
+                  label: "Technical Support",
+                  hasLogoutButton: true,
+                ),
               ],
             ),
           );
