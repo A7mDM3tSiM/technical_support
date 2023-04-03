@@ -27,7 +27,12 @@ class CustomTableRow extends StatelessWidget {
   });
 
   String _getAssignedUser(List<User> employees) {
-    return employees.where((user) => user.uid == assignedUser).first.name ?? "";
+    try {
+      return employees.where((user) => user.uid == assignedUser).first.name ??
+          "";
+    } catch (e) {
+      return "";
+    }
   }
 
   @override

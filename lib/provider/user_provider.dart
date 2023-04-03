@@ -40,6 +40,7 @@ class UserProvider extends ChangeNotifier {
       _apiResponse = ApiResponse.loading('Loading...');
       notifyListeners();
 
+      employees.clear();
       employees.addAll(
         await UserRepo().getUsers().then(
               (_filterUsersAndGetEmployees),

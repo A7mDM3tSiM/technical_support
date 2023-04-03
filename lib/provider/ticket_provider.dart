@@ -10,10 +10,13 @@ class TicketProvider extends ChangeNotifier {
 
   TextEditingController topicController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  PersistentBottomSheetController? controller;
+
+  bool isBottomSheetOpened = false;
 
   var toUpdateData = <String, dynamic>{};
 
-  void setTicket(String? uid) async {
+  Future<void> setTicket(String? uid) async {
     try {
       _apiResponse = ApiResponse.loading("Loading...");
       notifyListeners();
@@ -55,5 +58,23 @@ class TicketProvider extends ChangeNotifier {
   void _disposeControllers() {
     topicController.text = "";
     descriptionController.text = "";
+  }
+
+  /// This function is used to toggle the floating action button icon
+  /// and close the bottom sheet
+  void closeBottomSheet() {
+    isBottomSheetOpened = false;
+    if (controller != null) {
+      controller?.close();
+      controller = null;
+    }
+    notifyListeners();
+  }
+
+  /// This function is used to toggle the floating action button icon
+  /// and has nothing to do with opening the bottomsheet
+  void openBottomSheet() {
+    isBottomSheetOpened = true;
+    notifyListeners();
   }
 }

@@ -68,13 +68,13 @@ class TicketDetaiilsCustomerWidget extends StatelessWidget {
                   label: "Status:",
                   detail: ticket?.status ?? "",
                 ),
-                const CustomerTicketDetailsSubWidget(
+                CustomerTicketDetailsSubWidget(
                   label: "CreatedAt:",
-                  detail: "15:30:00 1/1/2023",
+                  detail: ticket?.cratedAt ?? "",
                 ),
-                const CustomerTicketDetailsSubWidget(
+                CustomerTicketDetailsSubWidget(
                   label: "Updated At:",
-                  detail: "15:30:00 1/1/2023",
+                  detail: ticket?.updatedAt ?? "",
                 ),
                 const CustomerTicketDetailsSubWidget(
                   label: "Adds:",

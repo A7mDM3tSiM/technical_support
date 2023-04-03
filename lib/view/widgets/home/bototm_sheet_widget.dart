@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:technical_support/models/services/api_services.dart';
 import 'package:technical_support/models/services/navigation_service.dart';
 import 'package:technical_support/provider/ticket_provider.dart';
 import 'package:technical_support/view/widgets/ticket/add_file_widget.dart';
@@ -8,6 +9,7 @@ import '../../../models/user/user_model.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({super.key});
+  static final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,87 +36,90 @@ class BottomSheetWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: ListView(
-        children: [
-          Text(
-            "Topic",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          SizedBox(
-            height: h * 0.005,
-          ),
-          TextField(
-            controller: ticket.topicController,
-            decoration: InputDecoration(
-              fillColor: Theme.of(context).colorScheme.surface,
+      child: Form(
+        key: _key,
+        child: ListView(
+          children: [
+            Text(
+              "Topic",
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
-          ),
-          SizedBox(
-            height: h * 0.02,
-          ),
-          Text(
-            "Description",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          SizedBox(
-            height: h * 0.005,
-          ),
-          Container(
-            color: Theme.of(context).colorScheme.surface,
-            height: h * 0.2,
-            child: TextFormField(
-              controller: ticket.descriptionController,
-              maxLines: null,
+            SizedBox(
+              height: h * 0.005,
+            ),
+            TextFormField(
+              controller: ticket.topicController,
+              validator: (val) =>
+                  val != null && val.isEmpty ? "Topic can not be empty" : null,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(h * 0.01),
-                filled: false,
+                fillColor: Theme.of(context).colorScheme.surface,
               ),
             ),
-          ),
-          SizedBox(
-            height: h * 0.02,
-          ),
-          Text(
-            "Adds",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          SizedBox(
-            height: h * 0.005,
-          ),
-          const AddFileWidget(),
-          SizedBox(
-            height: h * 0.02,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () {
-                  NavigationService.pop();
-                },
-                child: Text(
-                  "Cancel",
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.black,
-                        fontSize: h * 0.02,
-                      ),
+            SizedBox(
+              height: h * 0.02,
+            ),
+            Text(
+              "Description",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            SizedBox(
+              height: h * 0.005,
+            ),
+            Container(
+              color: Theme.of(context).colorScheme.surface,
+              height: h * 0.2,
+              child: TextFormField(
+                controller: ticket.descriptionController,
+                validator: (val) => val != null && val.isEmpty
+                    ? "Description can not be empty"
+                    : null,
+                maxLines: null,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(h * 0.01),
+                  filled: false,
                 ),
               ),
-              SizedBox(
-                width: w * 0.03,
-              ),
-              ElevatedButton(
-                onPressed: () => ticket.setTicket(user?.uid),
-                child: Text(
-                  "Send Ticket",
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.white,
+            ),
+            SizedBox(
+              height: h * 0.02,
+            ),
+            Text(
+              "Adds",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            SizedBox(
+              height: h * 0.005,
+            ),
+            const AddFileWidget(),
+            SizedBox(
+              height: h * 0.02,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ticket.apiResponse.status == Status.loading
+                    ? const CircularProgressIndicator.adaptive()
+                    : ElevatedButton(
+                        onPressed: () async {
+                          if (_key.currentState != null) {
+                            if (_key.currentState!.validate()) {
+                              await ticket.setTicket(user?.uid);
+                              NavigationService.pop();
+                            }
+                          }
+                        },
+                        child: Text(
+                          "Send Ticket",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    color: Colors.white,
+                                  ),
+                        ),
                       ),
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

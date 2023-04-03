@@ -64,7 +64,8 @@ class _HomeViewState extends State<HomeView> {
                         stream:
                             DataBaseServiecs(collection: 'tickets').ticketsList,
                         builder: (context, snapshot) {
-                          if (snapshot.hasData) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return const Center(
                               child: CircularProgressIndicator.adaptive(),
                             );
@@ -153,7 +154,8 @@ class _HomeViewState extends State<HomeView> {
                               ];
                               ticketsList.addAll(snapshot.data ?? []);
 
-                              if (!snapshot.hasData) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
                                 return Column(
                                   children: [
                                     SizedBox(
@@ -247,20 +249,27 @@ class _HomeViewState extends State<HomeView> {
             if (snapshot.data?.type != UserType.customer) {
               return const SizedBox();
             }
-            return FloatingActionButton(
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              onPressed: () {
-                showBottomSheet(
-                  context: context,
-                  enableDrag: false,
-                  builder: (context) => const BottomSheetWidget(),
-                );
-              },
-              // TODO: will implement two diffrent icons one for create
-              // a ticket and the anther for closing the bottom sheet
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
+            return Consumer<TicketProvider>(
+              builder: (_, ticket, __) => FloatingActionButton(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                onPressed: () {
+                  if (ticket.controller != null) {
+                    ticket.closeBottomSheet();
+                  } else {
+                    ticket.openBottomSheet();
+                    ticket.controller = showBottomSheet(
+                      context: context,
+                      enableDrag: false,
+                      builder: (context) => const BottomSheetWidget(),
+                    );
+                  }
+                },
+                child: Icon(
+                  ticket.isBottomSheetOpened
+                      ? Icons.arrow_drop_down_outlined
+                      : Icons.add,
+                  color: Colors.white,
+                ),
               ),
             );
           },

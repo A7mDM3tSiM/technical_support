@@ -29,6 +29,13 @@ class TicketDetailsView extends StatelessWidget {
     return null;
   }
 
+  String? _assignedUserDropDownValue(String assignedUser) {
+    if (assignedUser != "") {
+      return assignedUser;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final ticketProvider = Provider.of<TicketProvider>(context);
@@ -82,9 +89,12 @@ class TicketDetailsView extends StatelessWidget {
                                 Consumer<UserProvider>(
                                   builder: (_, user, __) =>
                                       DropdownButton<String>(
-                                    value: ticketProvider
-                                            .toUpdateData['assignedUser'] ??
-                                        args.ticket?.assignedUser,
+                                    value: _assignedUserDropDownValue(
+                                      ticketProvider
+                                              .toUpdateData['assignedUser'] ??
+                                          args.ticket?.assignedUser,
+                                    ),
+                                    hint: const Text("Assigned User"),
                                     items: user.employees
                                         .map(
                                           (emplyee) => DropdownMenuItem<String>(
