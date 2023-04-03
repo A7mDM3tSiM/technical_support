@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:technical_support/models/services/database_services.dart';
 
 import 'user_model.dart' as u;
 
@@ -36,5 +37,15 @@ class UserRepo {
 
   Future<void> logout() async {
     await _auth.signOut();
+  }
+
+  // get all the users
+  Future<List<u.User>> getUsers() async {
+    try {
+      return await DataBaseServiecs(collection: 'users').getUsers();
+    } catch (e) {
+      debugPrint("$e");
+    }
+    return [];
   }
 }

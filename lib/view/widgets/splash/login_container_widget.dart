@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:technical_support/provider/login_provider.dart';
+import 'package:technical_support/provider/user_provider.dart';
 
 import '../../../models/services/api_services.dart';
 
@@ -43,7 +43,7 @@ class LoginConatinerWidget extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: w * 0.05),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(h * 0.01),
-                    child: Consumer<LoginProvider>(
+                    child: Consumer<UserProvider>(
                       builder: (_, login, __) => TextFormField(
                         controller: login.emailController,
                         validator: (val) => val != null && !val.contains("@")
@@ -69,7 +69,7 @@ class LoginConatinerWidget extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: w * 0.05),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(h * 0.01),
-                    child: Consumer<LoginProvider>(
+                    child: Consumer<UserProvider>(
                       builder: (_, login, __) => TextFormField(
                         controller: login.passController,
                         validator: (val) => val != null && val.length < 6
@@ -95,7 +95,7 @@ class LoginConatinerWidget extends StatelessWidget {
           SizedBox(
             height: h * 0.02,
           ),
-          Consumer<LoginProvider>(
+          Consumer<UserProvider>(
             builder: (_, login, __) => login.apiResponse.status ==
                     Status.loading
                 ? const CircularProgressIndicator.adaptive()

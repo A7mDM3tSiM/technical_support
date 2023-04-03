@@ -24,6 +24,11 @@ class DataBaseServiecs {
     await _db.doc(ticketId).update(data);
   }
 
+  Future<List<User>> getUsers() async {
+    final list = await _db.get().then(_usersFromFirebaseUsers);
+    return list;
+  }
+
   Stream<User> get userData {
     return _db.doc(uid).snapshots().map(_userFromFirebaseUser);
   }
@@ -34,7 +39,7 @@ class DataBaseServiecs {
 
   User _userFromFirebaseUser(DocumentSnapshot snapshot) {
     return User(
-      uid: uid ?? '',
+      uid: snapshot.id,
       name: snapshot['name'],
       email: snapshot['email'],
       type: snapshot['type'],
@@ -53,6 +58,19 @@ class DataBaseServiecs {
           assignedUser: doc['assignedUser'],
           cratedAt: doc['createdAt'],
           updatedAt: doc['updatedAt'],
+        );
+      },
+    ).toList();
+  }
+
+  List<User> _usersFromFirebaseUsers(QuerySnapshot snapshots) {
+    return snapshots.docs.map(
+      (user) {
+        return User(
+          uid: user.id,
+          name: user['name'],
+          email: user['email'],
+          type: user['type'],
         );
       },
     ).toList();

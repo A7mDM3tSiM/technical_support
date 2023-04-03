@@ -33,7 +33,7 @@ class TicketProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTicket(String? ticketId) async {
+  Future<void> updateTicket(String? ticketId) async {
     try {
       _apiResponse = ApiResponse.loading("Loading...");
       notifyListeners();
@@ -44,6 +44,11 @@ class TicketProvider extends ChangeNotifier {
       _apiResponse = ApiResponse.error(e.toString());
     }
 
+    notifyListeners();
+  }
+
+  void setToUpdateData(String key, dynamic value) {
+    toUpdateData[key] = value;
     notifyListeners();
   }
 

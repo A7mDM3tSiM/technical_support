@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:technical_support/models/services/api_services.dart';
 import 'package:technical_support/models/user/user_repo.dart';
 
-class LoginProvider extends ChangeNotifier {
+import '../models/user/user_model.dart';
+
+class UserProvider extends ChangeNotifier {
   late var _apiResponse = ApiResponse.initial('init');
+  late final employees = <User>[];
 
   var emailController = TextEditingController();
   var passController = TextEditingController();
@@ -30,6 +33,36 @@ class LoginProvider extends ChangeNotifier {
       _apiResponse = ApiResponse.error(e.toString());
     }
     notifyListeners();
+  }
+
+  Future<void> getEmployees() async {
+    try {
+      _apiResponse = ApiResponse.loading('Loading...');
+      notifyListeners();
+
+      employees.addAll(
+        await UserRepo().getUsers().then(
+              (_filterUsersAndGetEmployees),
+            ),
+      );
+    } catch (e) {
+      _apiResponse = ApiResponse.error(e.toString());
+    }
+
+    _apiResponse = ApiResponse.completed(null);
+    notifyListeners();
+  }
+
+  List<User> _filterUsersAndGetEmployees(List<User> allUsers) {
+    final emplyee = <User>[];
+
+    for (var user in allUsers) {
+      if (user.type == UserType.agent) {
+        emplyee.add(user);
+      }
+    }
+
+    return emplyee;
   }
 
   void _disposeControllers() {

@@ -13,7 +13,7 @@ class Routes {
   static String ticketDetailsRoute = '/ticketDetails';
 
   /// a set contain all the app routes assigned to widgets
-  // (_) is context but it's not needed
+  // (_) is context but it's not used
   static final routes = {
     wrapper: (_) => const Wrapper(),
     splashRoute: (_) => const SplashView(),

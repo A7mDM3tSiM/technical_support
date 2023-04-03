@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class ThemeManegerProvider with ChangeNotifier {
   var _themeMode = ThemeMode.light;
 
-  ThemeMode get themeMode => _themeMode;
+  ThemeMode get theme => _themeMode;
 
-  set themeMode(var value) {
+  set theme(var value) {
     if (value is ThemeMode) {
       _themeMode = value;
       notifyListeners();

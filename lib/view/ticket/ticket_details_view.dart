@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:technical_support/components/statics/statics.dart';
 import 'package:technical_support/models/arguments/ticket_view_arguments.dart';
 import 'package:technical_support/models/services/api_services.dart';
+import 'package:technical_support/models/services/navigation_service.dart';
+import 'package:technical_support/provider/user_provider.dart';
 import 'package:technical_support/view/widgets/fileds/ticket_details_filed.dart';
 import 'package:technical_support/view/widgets/global/custom_app_bar.dart';
 import 'package:technical_support/view/widgets/ticket/add_file_widget.dart';
@@ -29,7 +31,7 @@ class TicketDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ticketProvider = Provider.of<TicketProvider>(context, listen: false);
+    final ticketProvider = Provider.of<TicketProvider>(context);
     final args =
         ModalRoute.of(context)!.settings.arguments as TicketViewArguments;
     var h = MediaQuery.of(context).size.height;
@@ -77,27 +79,46 @@ class TicketDetailsView extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                DropdownButton(
-                                  items: [
-                                    DropdownMenuItem(
-                                      child: Text(
-                                        "Assign to a user",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelLarge
-                                            ?.copyWith(fontSize: h * 0.017),
-                                      ),
-                                    ),
-                                  ],
-                                  onChanged: (item) {},
+                                Consumer<UserProvider>(
+                                  builder: (_, user, __) =>
+                                      DropdownButton<String>(
+                                    value: ticketProvider
+                                            .toUpdateData['assignedUser'] ??
+                                        args.ticket?.assignedUser,
+                                    items: user.employees
+                                        .map(
+                                          (emplyee) => DropdownMenuItem<String>(
+                                            value: emplyee.uid,
+                                            child: Text(
+                                              emplyee.name ?? "",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge
+                                                  ?.copyWith(
+                                                      fontSize: h * 0.017),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                    onChanged: (item) {
+                                      if (item != null) {
+                                        ticketProvider.setToUpdateData(
+                                          "assignedUser",
+                                          item,
+                                        );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 SizedBox(
                                   width: w * 0.05,
                                 ),
                                 DropdownButton<String>(
-                                  value: _priorityDropDownValue(
-                                    args.ticket?.priority ?? "",
-                                  ),
+                                  value:
+                                      ticketProvider.toUpdateData["priority"] ??
+                                          _priorityDropDownValue(
+                                            args.ticket?.priority ?? "",
+                                          ),
                                   items: ticketPriorties
                                       .map(
                                         (priorty) => DropdownMenuItem<String>(
@@ -114,8 +135,10 @@ class TicketDetailsView extends StatelessWidget {
                                       .toList(),
                                   onChanged: (item) {
                                     if (item != null) {
-                                      ticketProvider.toUpdateData['priority'] =
-                                          item;
+                                      ticketProvider.setToUpdateData(
+                                        "priority",
+                                        item,
+                                      );
                                     }
                                   },
                                 ),
@@ -139,9 +162,11 @@ class TicketDetailsView extends StatelessWidget {
                                   ),
                                   child: DropdownButton<String>(
                                     underline: const SizedBox(),
-                                    value: _statusDropDownValue(
-                                      args.ticket?.status ?? "",
-                                    ),
+                                    value:
+                                        ticketProvider.toUpdateData["status"] ??
+                                            _statusDropDownValue(
+                                              args.ticket?.status ?? "",
+                                            ),
                                     items: ticketStatus
                                         .map(
                                           (status) => DropdownMenuItem<String>(
@@ -159,8 +184,10 @@ class TicketDetailsView extends StatelessWidget {
                                         .toList(),
                                     onChanged: (item) {
                                       if (item != null) {
-                                        ticketProvider.toUpdateData['status'] =
-                                            item;
+                                        ticketProvider.setToUpdateData(
+                                          "status",
+                                          item,
+                                        );
                                       }
                                     },
                                   ),
@@ -173,11 +200,12 @@ class TicketDetailsView extends StatelessWidget {
                                         .adaptive();
                                   }
                                   return ElevatedButton(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       ticketProvider.toUpdateData['updatedAt'] =
                                           DateTime.now().toString();
-                                      ticketProvider
+                                      await ticketProvider
                                           .updateTicket(args.ticket?.id);
+                                      NavigationService.pop();
                                     },
                                     child: Text(
                                       "Submit",

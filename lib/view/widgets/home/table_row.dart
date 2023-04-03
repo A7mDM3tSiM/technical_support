@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:technical_support/components/statics/statics.dart';
+import 'package:technical_support/provider/user_provider.dart';
 import 'package:technical_support/view/widgets/home/table_row_cell.dart';
+
+import '../../../models/user/user_model.dart';
 
 class CustomTableRow extends StatelessWidget {
   final String id;
@@ -22,8 +26,14 @@ class CustomTableRow extends StatelessWidget {
     required this.isFirst,
   });
 
+  String _getAssignedUser(List<User> employees) {
+    return employees.where((user) => user.uid == assignedUser).first.name ?? "";
+  }
+
   @override
   Widget build(BuildContext context) {
+    final _emplyees =
+        Provider.of<UserProvider>(context, listen: false).employees;
     var w = MediaQuery.of(context).size.width;
 
     return Row(
@@ -53,7 +63,7 @@ class CustomTableRow extends StatelessWidget {
               : Theme.of(context).colorScheme.surface,
         ),
         TableRowCell(
-          label: isFirst ? "Assigned User" : assignedUser,
+          label: isFirst ? "Assigned User" : _getAssignedUser(_emplyees),
           width: w * 0.25,
           textColor: isFirst ? Colors.white : Colors.black,
           color: isFirst

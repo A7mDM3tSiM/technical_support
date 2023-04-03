@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_support/models/user/user_model.dart';
 import 'package:technical_support/models/user/user_repo.dart';
-import 'package:technical_support/provider/login_provider.dart';
+import 'package:technical_support/provider/user_provider.dart';
 import 'package:technical_support/provider/ticket_provider.dart';
 
 import 'components/routes/routes.dart';
@@ -51,8 +51,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ThemeManegerProvider>(
           create: (_) => ThemeManegerProvider(),
         ),
-        ChangeNotifierProvider<LoginProvider>(
-          create: (_) => LoginProvider(),
+        ChangeNotifierProvider<UserProvider>(
+          create: (_) => UserProvider(),
         ),
         ChangeNotifierProvider<TicketProvider>(
           create: (_) => TicketProvider(),
@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
               supportedLocales: context.supportedLocales,
               theme: lightTheme,
               darkTheme: darkTheme,
-              themeMode: theme.themeMode,
+              themeMode: theme.theme,
               locale: context.locale,
               debugShowCheckedModeBanner: false,
             ),

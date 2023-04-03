@@ -3,10 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:technical_support/components/routes/routes.dart';
 import 'package:technical_support/components/statics/statics.dart';
 import 'package:technical_support/models/arguments/ticket_view_arguments.dart';
+import 'package:technical_support/models/services/api_services.dart';
 import 'package:technical_support/models/services/database_services.dart';
 import 'package:technical_support/models/services/navigation_service.dart';
 import 'package:technical_support/models/ticket/ticket_repo.dart';
 import 'package:technical_support/models/user/user_model.dart';
+import 'package:technical_support/provider/ticket_provider.dart';
+import 'package:technical_support/provider/user_provider.dart';
 import 'package:technical_support/view/widgets/global/custom_app_bar.dart';
 import 'package:technical_support/view/widgets/home/bototm_sheet_widget.dart';
 import 'package:technical_support/view/widgets/home/table_row.dart';
@@ -23,7 +26,19 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) async {
+        final userProvider = Provider.of<UserProvider>(context, listen: false);
+        await userProvider.getEmployees();
+      },
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     final user = Provider.of<User?>(context);
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
@@ -36,6 +51,11 @@ class _HomeViewState extends State<HomeView> {
           collection: 'users',
         ).userData,
         builder: (context, snapshot) {
+          if (userProvider.apiResponse.status == Status.loading) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          }
           return SafeArea(
             child: Stack(
               children: [
@@ -161,6 +181,11 @@ class _HomeViewState extends State<HomeView> {
                                         itemBuilder: (context, index) {
                                           return GestureDetector(
                                             onTap: () {
+                                              Provider.of<TicketProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .toUpdateData
+                                                  .clear();
                                               if (index != 0) {
                                                 NavigationService.push(
                                                   Routes.ticketDetailsRoute,
